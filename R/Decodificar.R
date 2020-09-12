@@ -12,11 +12,11 @@ Decodificaramb <- function() {
   close(conn)
 
   # Descrição Consolidado
-  character1 <- c("prd-ident","prd-cnes","prd-cmp","Prd_cbo","prd-flh","prd-seq","prd-pa","prd-ldade","prd-qt","prd-org")
+  character1 <- c("prd-ident","prd-cnes","prd_cmp","prd_cbo","prd-flh","prd-seq","prd_pa","prd_idade","prd_qt","prd-org")
   formato1 <- c("I2","I7","A6","A6","I3","I2","A10","I3","I6","A3")
 
   # Descrição Individualizado
-  character2 <- c("prd-ident","prd-cnes","prd-cmp","Prd_cnsmed","Prd_cbo","Prd_dtaten","prd-flh","prd-seq","prd-pa","Prd-cnspac","Prd-sexo","Prd-ibge","Prd-cid","prd-ldade","prd-qt","Prd-caten","Prd-naut","prd-org","prd-nmpac","prd-dtnasc","prd-raca","prd-etnia","prd-nac","prd_SRV","prd_CLF","prd_equipe_Seq","prd_equipe_Area","prd_cnpj","prd_cep_pcnte","prd_lograd_pcnte","prd_end_pcnte","prd_compl_pcnte","prd_num_pcnte","prd_bairro_pcnte","prd_ddtel_pcnte","prd_email_pcnte")
+  character2 <- c("prd-ident","prd-cnes","prd_cmp","Prd_cnsmed","prd_cbo","Prd_dtaten","prd-flh","prd-seq","prd_pa","Prd-cnspac","Prd-sexo","Prd-ibge","Prd-cid","prd_idade","prd_qt","Prd-caten","Prd-naut","prd-org","prd-nmpac","prd-dtnasc","prd-raca","prd-etnia","prd-nac","prd_SRV","prd_CLF","prd_equipe_Seq","prd_equipe_Area","prd_cnpj","prd_cep_pcnte","prd_lograd_pcnte","prd_end_pcnte","prd_compl_pcnte","prd_num_pcnte","prd_bairro_pcnte","prd_ddtel_pcnte","prd_email_pcnte")
   formato2 <- c("I2","I7","A6","A15","A6","A8","I3","I2","A10","A15","A1","I6","A4","I3","I6","I2","A13","A3","A30","A8","I2","A4","I3","I3","I3","I8","I4","I14","I8","A3","A30","A10","A5","A30","A11","A40")
 
 
@@ -67,4 +67,11 @@ Decodificaramb <- function() {
   {
     writexl::write_xlsx(BPAI, path = stringr::str_c("../../3 - DADOS/DECODIFICAÇÕES AMB/2 - BPAI/", stringr::str_sub(arquivo, end = 10), "_BPAI.xlsx"))
   }
+
+  BPAC <- dplyr::select(BPAC, prd_cmp, prd_pa, prd_cbo, prd_idade, prd_qt)
+  BPAI <- dplyr::select(BPAI, prd_cmp, prd_pa, prd_cbo, prd_idade, prd_qt)
+  BPAU <- dplyr::bind_rows(BPAC, BPAI)
+
+  writexl::write_xlsx(BPAU, path = stringr::str_c("../../3 - DADOS/DECODIFICAÇÕES AMB/3 - BPAU/", stringr::str_sub(arquivo, end = 10), "_BPAU.xlsx"))
+
 }
